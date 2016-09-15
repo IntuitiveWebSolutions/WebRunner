@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.8.6] - 2016-09-15
+### Changed
+- Simplified `scroll_to_element` to accept offset parameters.
+
 ## [1.8.5] - 2016-09-12
 ### Changed
 - Better YAML script error handling.
