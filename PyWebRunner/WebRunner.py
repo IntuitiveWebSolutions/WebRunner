@@ -105,6 +105,9 @@ class WebRunner(object):
         # Turn off annoying selenium logs
         s_logger.setLevel(logging.WARNING)
 
+        # Conditionally capture screenshot when wait_for times out
+        self.timeout_screenshot_path = kwargs.get('timeout_screenshot_path')
+
     def _before(self):
         pass
 
@@ -1417,10 +1420,12 @@ class WebRunner(object):
             wait = WebDriverWait(self.browser, kwargs.get('timeout') or self.timeout)
             wait.until(wait_function)
         except TimeoutException:
-          if self.driver == 'Gecko':
-              print("Geckodriver can't use the text_to_be_present_in_element_value wait for some reason.")
-          else:
-              raise
+            if self.timeout_screenshot_path:
+                self.screenshot(self.timeout_screenshot_path)
+            if self.driver == 'Gecko':
+                print("Geckodriver can't use the text_to_be_present_in_element_value wait for some reason.")
+            else:
+                raise
 
     def wait_for_alert(self, **kwargs):
         '''
